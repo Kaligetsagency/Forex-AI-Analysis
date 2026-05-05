@@ -27,13 +27,3 @@ body {
   background-color: #ffffff;
   overflow: hidden;
 }
-
-/* Additional UI Elements */
-.loading-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: #6b7280;
-  font-weight: 500;
-}
