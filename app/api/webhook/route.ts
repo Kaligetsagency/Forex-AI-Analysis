@@ -6,7 +6,6 @@ export async function POST(req: Request) {
     const body = await req.text();
     const signature = req.headers.get('x-snippe-signature') as string;
 
-    // Verify Snippe Webhook Signature (HMAC SHA256)
     const expectedSignature = crypto
       .createHmac('sha256', process.env.SNIPPE_WEBHOOK_SECRET!)
       .update(body)
@@ -18,12 +17,10 @@ export async function POST(req: Request) {
 
     const event = JSON.parse(body);
 
-    // Handle the Snippe payment success payload
     if (event.status === 'successful' || event.status === 'completed') {
-      const userId = event.reference; // Extracted from the checkout session
+      const userId = event.reference; 
       
-      // TODO: Update your database (e.g., Supabase/Firebase)
-      // db.users.update({ id: userId }, { isSubscribed: true, subscriptionStatus: 'active' });
+      // TODO: Update database to grant access
       console.log(`Snippe payment successful. Subscription active for user: ${userId}`);
     }
 
