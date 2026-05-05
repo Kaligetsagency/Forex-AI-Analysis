@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Chart Setup
     const chartContainer = document.getElementById('chartContainer');
     const chart = LightweightCharts.createChart(chartContainer, {
         width: chartContainer.clientWidth,
@@ -9,40 +8,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const lineSeries = chart.addLineSeries({ color: '#2962FF', lineWidth: 2 });
 
-    // Handle Window Resize
     window.addEventListener('resize', () => {
         chart.applyOptions({ width: chartContainer.clientWidth });
     });
 
-    // 2. Market Data State
     let priceHistory = [];
-    const DERIV_APP_ID = 1089; // Standard demo app_id for Deriv
+    const DERIV_APP_ID = 1089;
     const SYMBOL = 'R_75';
 
-    // 3. WebSocket Connection
     const ws = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${DERIV_APP_ID}`);
     
     ws.onopen = () => {
-        console.log('Connected to Deriv');
         ws.send(JSON.stringify({ ticks: SYMBOL, subscribe: 1 }));
     };
 
     ws.onmessage = (msg) => {
         const data = JSON.parse(msg.data);
         if (data.msg_type === 'tick') {
-            const tick = {
-                time: data.tick.epoch,
-                value: data.tick.quote,
-            };
+            const tick = { time: data.tick.epoch, value: data.tick.quote };
             lineSeries.update(tick);
             
-            // Keep last 1000 ticks in memory
             priceHistory.push({ time: tick.time, price: tick.value });
             if (priceHistory.length > 1000) priceHistory.shift();
         }
     };
 
-    // 4. Trigger AI Analysis
     const analyzeBtn = document.getElementById('analyzeBtn');
     const aiResult = document.getElementById('aiResult');
 
@@ -70,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 5. Snippe Checkout Integration
     const subscribeBtn = document.getElementById('subscribeBtn');
     subscribeBtn.addEventListener('click', async () => {
         try {
