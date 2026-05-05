@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { createChart, IChartApi } from 'lightweight-charts';
 import { useMarketStore } from '@/store/useMarketStore';
 import { derivAPI } from '@/lib/deriv';
-import '@/styles/style.css'; // Import your vanilla CSS
+import '@/styles/style.css'; 
 
 export default function LiveChart({ symbol = 'R_75' }: { symbol?: string }) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
