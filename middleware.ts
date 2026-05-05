@@ -6,10 +6,7 @@ export async function middleware(req: NextRequest) {
   
   if (url.pathname.startsWith('/dashboard') || url.pathname.startsWith('/api/analyze')) {
     
-    // Retrieve the user's session token (e.g., from NextAuth or Supabase cookies)
     const token = req.cookies.get('user_session')?.value;
-    
-    // Mock validation: check your database if user.isSubscribed === true
     const isSubscribed = await checkUserSubscriptionStatus(token); 
 
     if (!isSubscribed) {
@@ -23,9 +20,7 @@ export async function middleware(req: NextRequest) {
 
 async function checkUserSubscriptionStatus(token: string | undefined) {
   if (!token) return false;
-  // const user = await db.getUser(token);
-  // return user?.isSubscribed;
-  return true; // placeholder
+  return true; // placeholder until database integration
 }
 
 export const config = {
